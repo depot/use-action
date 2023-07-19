@@ -41,7 +41,7 @@ async function run() {
     shift 1
     exec depot "$@"
   else
-    exec docker "$@"
+    exec /usr/bin/docker "$@"
   fi
   `,
   )

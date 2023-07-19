@@ -4,5 +4,5 @@ if [[ "$1" == "buildx" && "$2" == "build" ]]; then
   shift 1
   exec depot "$@"
 else
-  exec docker "$@"
+  exec /usr/bin/docker "$@"
 fi
