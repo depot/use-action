@@ -4,13 +4,11 @@ import * as github from '@actions/github'
 import * as http from '@actions/http-client'
 import * as toolCache from '@actions/tool-cache'
 import * as publicOIDC from '@depot/actions-public-oidc-client'
-import * as fsp from 'fs/promises'
-import * as os from 'os'
 import * as path from 'path'
 
 type ApiResponse = {ok: true; url: string} | {ok: false; error: string}
 
-const client = new http.HttpClient('depot-setup-action')
+const client = new http.HttpClient('depot-use-action')
 
 async function run() {
   // Get user-specified version to install (defaults to "latest")
@@ -20,33 +18,13 @@ async function run() {
   const {url, resolvedVersion} = await resolveVersion(version)
 
   // Install the resolved version if necessary
-  const toolPath = toolCache.find('depot', resolvedVersion)
-  if (toolPath) {
-    core.addPath(toolPath)
-  } else {
-    await installDepotCLI(url, resolvedVersion)
-  }
+  let toolPath = toolCache.find('depot', resolvedVersion)
+  if (!toolPath) toolPath = await installDepotCLI(url, resolvedVersion)
+  core.addPath(toolPath)
 
   core.info(`depot ${resolvedVersion} is installed`)
 
-  const tmp = path.join(os.tmpdir(), 'depot-bin')
-  await fsp.mkdir(tmp, {recursive: true})
-
-  await exec.exec('depot', ['docker', 'install'])
-  await fsp.writeFile(
-    path.join(tmp, 'docker'),
-    `#!/usr/bin/env bash
-
-  if [[ "$1" == "buildx" && "$2" == "build" ]]; then
-    shift 1
-    exec depot "$@"
-  else
-    exec /usr/bin/docker "$@"
-  fi
-  `,
-  )
-  await fsp.chmod(path.join(tmp, 'docker'), 0o755)
-  core.addPath(tmp)
+  await exec.exec(path.join(toolPath, 'depot'), ['configure-docker', '--shim-buildx'])
 
   // Attempt to exchange GitHub Actions OIDC token for temporary Depot trust relationship token
   if (core.getBooleanInput('oidc')) {
@@ -104,7 +82,7 @@ async function installDepotCLI(url: string, resolvedVersion: string) {
   const tarPath = await toolCache.downloadTool(url)
   const extractedPath = await toolCache.extractTar(tarPath)
   const cachedPath = await toolCache.cacheDir(path.join(extractedPath, 'bin'), 'depot', resolvedVersion)
-  core.addPath(cachedPath)
+  return cachedPath
 }
 
 run().catch((error) => {
