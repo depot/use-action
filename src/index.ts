@@ -29,10 +29,15 @@ async function run() {
   }
 
   const project = core.getInput('project')
-  const token = core.getInput('token')
+  if (project) {
+    core.exportVariable('DEPOT_PROJECT_ID', project)
+  }
 
-  if (project) core.exportVariable('DEPOT_PROJECT_ID', project)
-  if (token) core.exportVariable('DEPOT_TOKEN', token)
+  const token = core.getInput('token')
+  if (token) {
+    core.exportVariable('DEPOT_TOKEN', token)
+    core.setSecret(token)
+  }
 }
 
 async function resolveVersion(version: string) {
