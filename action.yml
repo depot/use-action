@@ -14,9 +14,18 @@ inputs:
       the latest version for the target platform will be installed. Example: "0.0.2".
     default: latest
     required: false
-  oidc:
+  project:
     description: |-
-      If set to true, the action will authenticate with the Depot API using OIDC
-      and save the returned token as environment a `DEPOT_TOKEN` environment variable.
+      If set, will populate the `DEPOT_PROJECT_ID` environment variable.
+    default: ''
+    required: false
+  token:
+    description: |-
+      If set, will populate the `DEPOT_TOKEN` environment variable.
+    default: ''
+    required: false
+  shim-buildx:
+    description: |-
+      If set, will install the `buildx build` shim.
     default: 'false'
     required: false
