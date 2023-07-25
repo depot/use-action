@@ -9,7 +9,7 @@ This action prepares the environment to build Docker images with the [Depot CLI]
 
 ## Usage
 
-Download and install the latest version of the CLI:
+Download and use the latest version of the CLI:
 
 ```yaml
 jobs:
@@ -61,6 +61,7 @@ jobs:
 - `project` (optional) - A string representing the project ID to use for builds. This can be overridden by the `DEPOT_PROJECT_ID` environment variable or the `--project` CLI flag.
 - `token` (optional) - A string representing the API token to use for authentication. This can be overridden by the `DEPOT_TOKEN` environment variable.
 - `version` (optional) - A string representing the version of the Depot CLI to install (e.g. `1.2.3`). The default value is `latest` which will install the latest available version. Can also specify a semver version range selector (e.g. `0.x.x`).
+- `shim-buildx` (optional) - A boolean representing whether to install the Buildx shim. The default value is `true`.
 
 ## License
 
