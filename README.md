@@ -15,7 +15,7 @@ Download and use the latest version of the CLI:
 jobs:
   job-name:
     steps:
-      - uses: depot/setup-action@v1
+      - uses: depot/use-action@v1
       - run: depot ...
 ```
 
@@ -25,7 +25,7 @@ The `depot` CLI needs to resolve a project ID to build images. This can be from 
 jobs:
   job-name:
     steps:
-      - uses: depot/setup-action@v1
+      - uses: depot/use-action@v1
         with:
           project: abc123xzy
 ```
@@ -42,7 +42,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: depot/setup-action@v1
+      - uses: depot/use-action@v1
 ```
 
 If you do need to provide an API token, you can set the `DEPOT_TOKEN` environment variable with the `token` input:
@@ -51,7 +51,7 @@ If you do need to provide an API token, you can set the `DEPOT_TOKEN` environmen
 jobs:
   job-name:
     steps:
-      - uses: depot/setup-action@v1
+      - uses: depot/use-action@v1
         with:
           token: ${{ secrets.DEPOT_TOKEN }}
 ```
