@@ -1,5 +1,5 @@
 name: Use Depot
-description: Installs the Depot CLI into the GitHub Actions environment
+description: Install and use Depot to build Docker images
 author: Depot
 branding:
   icon: package
