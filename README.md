@@ -5,7 +5,7 @@ This action prepares the environment to build Docker images with the [Depot CLI]
 1. Installs the `depot` CLI in the GitHub Actions environment.
 2. Installs Depot as a Docker CLI plugin (`docker depot ...`)
 3. Sets the Depot plugin as the default Docker builder (`docker build ...`)
-4. Installs a Buildx shim so that `docker buildx build` is forwarded to the Depot plugin.
+4. Installs a Buildx driver so that `docker buildx build` is forwarded to the Depot plugin.
 
 ## Usage
 
@@ -61,7 +61,6 @@ jobs:
 - `project` (optional) - A string representing the project ID to use for builds. This can be overridden by the `DEPOT_PROJECT_ID` environment variable or the `--project` CLI flag.
 - `token` (optional) - A string representing the API token to use for authentication. This can be overridden by the `DEPOT_TOKEN` environment variable.
 - `version` (optional) - A string representing the version of the Depot CLI to install (e.g. `1.2.3`). The default value is `latest` which will install the latest available version. Can also specify a semver version range selector (e.g. `0.x.x`).
-- `shim-buildx` (optional) - A boolean representing whether to install the Buildx shim. The default value is `true`.
 
 ## License
 

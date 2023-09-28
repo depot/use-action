@@ -22,11 +22,7 @@ async function run() {
 
   core.info(`depot ${resolvedVersion} is installed`)
 
-  if (core.getBooleanInput('shim-buildx')) {
-    await exec.exec(path.join(toolPath, 'depot'), ['configure-docker', '--shim-buildx'])
-  } else {
-    await exec.exec(path.join(toolPath, 'depot'), ['configure-docker'])
-  }
+  await exec.exec(path.join(toolPath, 'depot'), ['configure-docker'])
 
   const project = core.getInput('project')
   if (project) {
