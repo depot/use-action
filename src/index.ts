@@ -22,8 +22,6 @@ async function run() {
 
   core.info(`depot ${resolvedVersion} is installed`)
 
-  await exec.exec(path.join(toolPath, 'depot'), ['configure-docker'])
-
   const project = core.getInput('project')
   if (project) {
     core.exportVariable('DEPOT_PROJECT_ID', project)
@@ -34,6 +32,14 @@ async function run() {
     core.exportVariable('DEPOT_TOKEN', token)
     core.setSecret(token)
   }
+
+  await exec.exec(path.join(toolPath, 'depot'), ['configure-docker'], {
+    env: {
+      ...process.env,
+      DEPOT_PROJECT_ID: process.env.DEPOT_PROJECT_ID ?? project,
+      DEPOT_TOKEN: process.env.DEPOT_TOKEN ?? token,
+    },
+  })
 }
 
 async function resolveVersion(version: string) {
