@@ -24,8 +24,3 @@ inputs:
       If set, will populate the `DEPOT_TOKEN` environment variable.
     default: ''
     required: false
-  shim-buildx:
-    description: |-
-      If set, will install the `buildx build` shim.
-    default: 'true'
-    required: false
