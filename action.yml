@@ -24,3 +24,5 @@ inputs:
       If set, will populate the `DEPOT_TOKEN` environment variable.
     default: ''
     required: false
+- name: Use Depot
+  uses: depot/use-action@v1.2.0
